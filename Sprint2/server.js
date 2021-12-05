@@ -30,7 +30,7 @@ app.set('view engine', 'ejs');
 
 
 // when application firstrun redirect to home page
-app.get("/", (req, res) => {
+app.get("/", function (req, res) {
     LoadHomePage(res);
 });
 
