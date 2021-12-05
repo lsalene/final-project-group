@@ -94,6 +94,13 @@ app.post('/edit-user', function (req, res) {
             res.redirect('/user');   //after updating the user, the browser will redirect to the /user page or homepage (Because both are same)
         });
 });
+
+app.get('/delete-user/:id', function (req, res) {
+    const id = req.params.id;
+    axios.delete(apiEndPoint + "deleteuser/" + id).then((response) => {
+        res.redirect('/user');
+    });
+});
 //Sufiaan Shaikh
 //display all available restaurants in /restaurant page using get method
 app.get('/restaurant', function (req, res) {
