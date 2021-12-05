@@ -69,6 +69,31 @@ app.post('/add-user', function (req, res) {    //post method to add new users in
         });
 });
 
+//Leira Salene
+//edit user in user table from GUI based on ID using get method
+app.get('/edit-user/:id', function (req, res) {    //get method to show elemets in edit-user page in browser based on id provided
+    const id = req.params.id;
+    axios.get(apiEndPoint + 'user/' + id)    //using user id, showing the name related to id using get method
+        .then((response) => {
+            if (response && response.data) {
+                results = response.data;
+                res.render("pages/user/edit-user.ejs", { data: results });  //redner the selected user based on id and showing buttons and text box for edit in edit-user.ejs page
+            }
+            else {
+                res.render("pages/user/edit-user.ejs", { data: results });
+            }
+        });
+});
+
+
+//Leira Salene
+//using post method to edit the selected user based on id selected in above API
+app.post('/edit-user', function (req, res) {
+    axios.patch(apiEndPoint + 'userupdate', req.body)  //calling userupdate API from python file
+        .then((response) => {
+            res.redirect('/user');   //after updating the user, the browser will redirect to the /user page or homepage (Because both are same)
+        });
+});
 //Sufiaan Shaikh
 //display all available restaurants in /restaurant page using get method
 app.get('/restaurant', function (req, res) {
