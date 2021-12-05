@@ -216,7 +216,7 @@ app.post('/edit-restaurant', function (req, res) {
 
 //Leira Salene
 //Deleting the restaurant based on id
-app.get('/delet-erestaurant/:restaurant_id', function (req, res) {
+app.get('/delete-restaurant/:restaurant_id', function (req, res) {
     const restaurant_id = req.params.restaurant_id;
     //calling deleterestaurant api from Python file and using delete method to delete user based on id
     axios.delete(apiEndPoint + "deleterestaurant/" + restaurant_id).then((response) => {
