@@ -105,7 +105,7 @@ def restaurant():
     usersql = "SELECT * FROM restaurant WHERE user_id=" + new_Id
     alluserrestaurants = execute_read_query(connection, usersql) 
     count = len(alluserrestaurants)
-
+    #Stopping user to add more than 10 restaurants
     if count>=10 :
         return "False"
     else :
