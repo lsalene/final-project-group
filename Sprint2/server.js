@@ -173,6 +173,47 @@ app.post('/add-restaurant', function (req, res) {
         });
 });
 
+//Leira Salene
+//edit the restaurant in restaurant table from GUI based on ID using get method
+app.get('/edit-restaurant/:restaurant_id', function (req, res) {    //get method to show elemets in edit-restaurant page in browser based on id provided
+    //get users
+    try {
+        let users = [];
+        const restaurant_id = req.params.restaurant_id;
+        axios.get(apiEndPoint + 'user/all')
+            .then((response) => {
+                if (response && response.data) {
+                    users = response.data;
+                    //get resturant data
+                    axios.get(apiEndPoint + 'restaurant/' + restaurant_id)  //using resataursnt_id, showing the restaurant_name related to id using get method
+                        .then((rresponse) => {
+                            if (rresponse && rresponse.data) {
+                                results = rresponse.data;
+                                //redner the selected restaurant and showing buttons and text box for edit in edit-restauarnt.ejs page
+                                res.render("pages/restaurant/edit-restaurant.ejs", { data: results, users: users });
+                            }
+                            else {
+                                res.redirect('/restaurant'); 
+                            }
+                        });
+                }
+            });
+    }
+    catch { }
+
+});
+
+
+//Leira Salene
+//using post method to edit the selected restaurant based on id selected in above API
+app.post('/edit-restaurant', function (req, res) {
+    axios.patch(apiEndPoint + 'restaurantupdate', req.body)    //calling restaurantupdate API from python file
+        .then((response) => {
+            res.redirect('/restaurant');   //after updating the restaurant, the browser will redirect to the restaurant page
+        });
+});
+
+
 // Server setup
 app.listen(8080, () => {
     console.log(
