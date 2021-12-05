@@ -116,6 +116,8 @@ app.get('/deleteuser/:id', function (req, res) {   //get method to show delete-u
     }
 
 });
+
+
 //Sufiaan Shaikh
 //display all available restaurants in /restaurant page using get method
 app.get('/restaurant', function (req, res) {
@@ -132,7 +134,44 @@ app.get('/restaurant', function (req, res) {
         });
 });
 
+//Sufiaan Shaikh
+//Adding a new restaurant 
+// using get method to show the text box and buttons available in /add-restaurant page in browser
+app.get('/add-restaurant', function (req, res) {
+    let users = [];
+    axios.get(apiEndPoint + 'user/all')     //calling user/all api from python file to show all user in add-restaurant page then restaurant can be added by the users
+        .then((response) => {
+            if (response && response.data) {
+                users = response.data;
+                res.render("pages/restaurant/add-restaurant.ejs", { users: users, message: null });   //rendering the data in add-restaurant.ejs page
+            }
+        });
 
+});
+
+
+//Sufiaan Shaikh
+//using post method adding a new restaurant in add-restaurant page
+app.post('/add-restaurant', function (req, res) {
+    axios.post(apiEndPoint + 'restaurant', req.body)
+        .then((response) => {
+            if (response.data == "True") {
+                res.redirect('/restaurant');     //after adding the restaurant, the browser will redirect the /restaurant page
+            }
+            //now if users have already 10 restaurants added, the api won't let more restaurants and instead it will show an error message.
+            else {
+                let users = [];
+                axios.get(apiEndPoint + 'user/all') 
+                    .then((response) => {
+                        if (response && response.data) {
+                            users = response.data;
+                            //it will render the message on add-restaurant page
+                            res.render("pages/restaurant/add-restaurant.ejs", { users: users, message: "For this user maximum limit of 10 restaurant reached ! Select diffrent user." });
+                        }
+                    });
+            }
+        });
+});
 
 // Server setup
 app.listen(8080, () => {

@@ -5,6 +5,48 @@
     <body>
         <!--header will be added from /partial/header file-->
         <%- include('../../partial/header'); %>
-            
+            <div class="container-xl">
+                <!--calling post method /add-restaurant from server.js file-->
+                <form action="/add-restaurant" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Restaurant</h4>
+                    </div>
+                    <div class="modal-body">
+                        <% if (message!=null) { %>
+                            <!--Error message will show in red if user has more than 10 restaurants-->
+                            <p style="color: red;">
+                                <%=message%>
+                            </p>
+                            <% } %>
+                                <div class="form-group">
+                                    <label>Restaurant Name</label>
+                                    <!--using required, forcing user to add name before saving-->
+                                    <input type="text" class="form-control" id="restaurant_name" name="restaurant_name"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Select User</label>
+                                    <!--Selecting user is required-->
+                                    <select name="user_id" title="Select User" class="form-control" required>
+                                        <option value="">Select User</option>
+                                        <% users.forEach(element=> { %>
+                                            <option value="<%= element.id %>">
+                                                <!--it will show user first and last name based on id-->
+                                                <%= element.first_name %>
+                                                    <%= element.last_name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--cancel buttton will redirect to /restaurant page-->
+                        <a href="/restaurant" class="btn btn-default" value="Cancel">Cancel</a>
+                        <!--save button will submit the changes-->
+                        <input type="submit" class="btn btn-success" value="Save">
+                    </div>
+                </form>
+            </div>
+            <!--footer will be added from /partial/footer file-->
             <%- include('../../partial/footer'); %>
     </body>
