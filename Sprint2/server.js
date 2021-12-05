@@ -95,11 +95,26 @@ app.post('/edit-user', function (req, res) {
         });
 });
 
-app.get('/delete-user/:id', function (req, res) {
-    const id = req.params.id;
-    axios.delete(apiEndPoint + "deleteuser/" + id).then((response) => {
-        res.redirect('/user');
-    });
+//Leira Salene
+//Deleting the user based on id
+app.get('/deleteuser/:id', function (req, res) {   //get method to show delete-user based on id ()
+    try {
+        const id = req.params.id;
+        //calling deleteuser api from Python file and using delete method to delete user based on id
+        axios.delete(apiEndPoint + "deleteuser/" + id).then( 
+            (response) => {
+                //user and restaurant are connected with foreign keys. So if user have any restaurant assosiated with them then it will not delete and give an alert. If user does not have any restaurants associated their id then it will be deleted.
+                if(response.data=="False"){
+                    alert("You cannot delete this user! This user is assigned to restaurant(s)! Please delete the associated restaurent(s) first!")
+                }
+                res.redirect('/user');   //after delete/alert it will be redirected to /user page in browser
+            });
+    }
+    catch {
+        console.log('in exception')
+        alert("You cannot delete this user! This user is assigned to restaurant(s)! Please delete the associated restaurent(s) first!")
+    }
+
 });
 //Sufiaan Shaikh
 //display all available restaurants in /restaurant page using get method
