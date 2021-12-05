@@ -225,6 +225,30 @@ app.get('/delet-erestaurant/:restaurant_id', function (req, res) {
 });
 
 // Server setup
+//Sufiaan Shaikh
+//get method to show elements in select-restaurant page
+app.get('/select-restaurant', function (req, res) {
+    res.render("pages/restaurant/restaurant-select.ejs", { data: null });    //render the data in restaurant-select.ejs file 
+});
+
+
+//Sufiaan Shaikh
+//post method to show functionality of random api from python file
+app.post('/select-restaurant', function (req, res) {
+    axios.get(apiEndPoint + 'random')     //get method to call /random api from python and showing the results in select-restaurant page
+        .then((response) => {
+            if (response && response.data) {
+                results = response.data;
+                res.render("pages/restaurant/restaurant-select.ejs", { data: results[0] });   //render the results in restaurant-select.ejs file 
+            }
+            else {
+                res.render("pages/restaurant/manage-restaurant.ejs", { data: null });
+            }
+        });
+});
+
+
+
 app.listen(8080, () => {
     console.log(
         `8080 is a Magic Port`);

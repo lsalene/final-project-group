@@ -2,4 +2,30 @@
 <!--head will be added from /partial/head file-->
 <%- include('../../partial/head'); %>
 
-    
+    <body>
+        <!--header will be added from /partial/header file-->
+        <%- include('../../partial/header'); %>
+            <div class="container-xl">
+                <!--post method /select-restaurant will be called from server.js file-->
+                <form action="/select-restaurant" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Select Restaurant</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!--assign restaurant button-->
+                        <input type="submit" class="btn btn-success" value="Assign Resturant">
+                        <hr>
+                        <% if (data!=null) { %>
+                            <!--will return the random group of people and one random restaurant with a message-->
+                            <h1><strong>
+                                    <%=data.first_name%>
+                                </strong> is/are going for night dinner at <strong>
+                                    <%= data.restaurant_name%>
+                                </strong> restaurant</h1>
+                            <% } %>
+                    </div>
+                </form>
+            </div>
+            <!--footer will be added from /partial/footer file-->
+            <%- include('../../partial/footer'); %>
+    </body>
