@@ -56,7 +56,34 @@ function LoadHomePage(res) {
         });
 }
 
+//Sufiaan Shaikh
+//Adding a new user to the user table from GUI
+app.get('/add-user', function (req, res) {    //get method to show the elements of the add-user.ejs page in browser
+    res.render("pages/user/add-user.ejs", { data: null }); //render new user to add-user.ejs page
+});
+// redirecting to the api/user from python file, and adding user in the database
+app.post('/add-user', function (req, res) {    //post method to add new users in GUI and Database
+    axios.post(apiEndPoint + 'user', req.body)   //calling user api in POST method to add new users in the Databse
+        .then((response) => {
+            res.redirect('/user');   //After adding new users it will redirect to the /user page in browsser
+        });
+});
 
+//Sufiaan Shaikh
+//display all available restaurants in /restaurant page using get method
+app.get('/restaurant', function (req, res) {
+    let results = [];   //hold results into a variable
+    axios.get(apiEndPoint + 'restaurant/all')      //calling /restaurant/all api from python file to show all restaurant using get method
+        .then((response) => {
+            if (response && response.data) {
+                results = response.data;     //adding all available restaurants in results
+                res.render("pages/restaurant/manage-restaurant.ejs", { data: results, message: null });   //render the data manage-restaurant.ejs page to show data and add new restaurant button
+            }
+            else {
+                res.render("pages/restaurant/manage-restaurant.ejs", { data: results, message: null });
+            }
+        });
+});
 
 
 
